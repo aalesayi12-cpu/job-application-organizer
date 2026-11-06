@@ -1,0 +1,54 @@
+# Personal data - do not commit
+_System/auto_apply_config.json
+_System/applied_log.json
+_System/.job_metadata.json
+_Templates/resume.pdf
+
+# Application folders (user-specific)
+_Archive/
+_Reports/
+_Pending/
+*/
+
+# Keep example/template folders
+!_Templates/
+!_System/
+
+# Logs and outputs
+*.log
+*.xlsx
+Daily_Report_*.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# ChromeDriver
+chromedriver.exe
+chromedriver
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
+*.cache

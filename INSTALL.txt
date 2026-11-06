@@ -1,0 +1,242 @@
+╔══════════════════════════════════════════════════════════════╗
+║     JOB APPLICATION ORGANIZER - INSTALLATION GUIDE           ║
+╚══════════════════════════════════════════════════════════════╝
+
+SYSTEM REQUIREMENTS
+───────────────────
+✓ Python 3.8 or higher
+✓ Google Chrome browser
+✓ ChromeDriver (separate download)
+✓ Windows 10/11 (Mac/Linux compatible with path adjustments)
+
+INSTALLATION STEPS
+──────────────────
+
+[1] INSTALL DEPENDENCIES
+    → Double-click: setup_system.bat
+    → This installs: selenium, openpyxl, schedule, pyautogui
+
+[2] DOWNLOAD CHROMEDRIVER
+    → Visit: https://chromedriver.chromium.org/
+    → Download version matching your Chrome browser
+    → Extract chromedriver.exe
+    → Place in: C:\Windows\System32\
+      OR add to your PATH environment variable
+
+[3] CONFIGURE YOUR INFO
+    → Open: _System\auto_apply_config.json
+    → Edit these sections:
+
+      "user_info": {
+        "full_name": "Your Full Name",
+        "email": "your.email@example.com",
+        "phone": "+1234567890",
+        "linkedin": "https://linkedin.com/in/yourprofile",
+        "location": "Your City, State",
+        "years_experience": "5",
+        "field": "your field (e.g., software engineering)"
+      }
+
+      "job_preferences": {
+        "titles": ["Job Title 1", "Job Title 2", "Job Title 3"],
+        "locations": ["Remote", "City 1", "City 2"]
+      }
+
+      "platforms": {
+        "linkedin": {
+          "enabled": true,
+          "username": "your.email@example.com",
+          "password": "your_linkedin_password"
+        }
+      }
+
+[4] ADD YOUR RESUME
+    → Save your resume as PDF
+    → Place in: _Templates\resume.pdf
+    → File must be named exactly: resume.pdf
+
+[5] CUSTOMIZE COVER LETTER (Optional)
+    → Edit: _Templates\cover_letter_template.txt
+    → Use placeholders: [COMPANY], [POSITION], [YOUR_NAME]
+    → System auto-generates personalized letters per application
+
+TEST INSTALLATION
+─────────────────
+→ Double-click: run_full_system.bat
+→ System will:
+  • Search for jobs matching your criteria
+  • Auto-apply via LinkedIn Easy Apply
+  • Generate Excel tracker
+  • Create daily report
+
+→ Check outputs:
+  • _Reports\Job_Tracker.xlsx
+  • _Reports\Daily_Report_[date].txt
+
+
+USAGE - THREE WAYS TO RUN
+──────────────────────────
+
+[A] CLAUDE SKILL (Recommended for Claude users)
+    1. Copy job-application-organizer.md to:
+       Windows: C:\Users\[USERNAME]\.claude\skills\
+       Mac/Linux: ~/.claude/skills/
+
+    2. Restart Claude or run: /help
+
+    3. Run commands:
+       /job-application-organizer setup
+       /job-application-organizer apply
+       /job-application-organizer track
+       /job-application-organizer full
+       /job-application-organizer status
+
+[B] MANUAL EXECUTION
+    → run_full_system.bat        (apply + track + report)
+    → run_tracker_only.bat       (track existing apps only)
+
+[C] AUTOMATED DAILY
+    → start_scheduler.bat        (runs daily at 9:00 AM)
+    → Leave window open or run as scheduled task
+
+
+FOLDER STRUCTURE AFTER SETUP
+─────────────────────────────
+Job Application/
+├── _System/              Scripts + config + logs
+├── _Templates/           Resume + cover letter
+├── _Reports/             Excel tracker + daily reports
+├── _Archive/             Old applications (auto-archived after 45 days)
+├── _Pending/             Incomplete applications
+└── [Company_Date]/       Auto-generated per application
+
+
+CONFIGURATION OPTIONS
+─────────────────────
+Edit: _System\auto_apply_config.json
+
+"application_limits": {
+  "daily_max": 20,              ← Max applications per day
+  "per_platform_max": 10,       ← Max per platform (LinkedIn/Indeed)
+  "cooldown_seconds": 30        ← Delay between applications
+}
+
+"filters": {
+  "exclude_keywords": ["unpaid", "volunteer"],  ← Skip jobs with these
+  "require_keywords": [],                        ← Only jobs with these
+  "min_salary": 0,
+  "max_salary": 500000
+}
+
+
+TROUBLESHOOTING
+───────────────
+
+[ERROR: ChromeDriver not found]
+→ Download from https://chromedriver.chromium.org/
+→ Match your Chrome version (chrome://settings/help)
+→ Add to PATH or place in C:\Windows\System32\
+
+[ERROR: Module not found]
+→ Run: pip install selenium openpyxl schedule pyautogui
+→ Or run: setup_system.bat again
+
+[ERROR: LinkedIn login failed]
+→ Login manually first in Chrome
+→ Check credentials in auto_apply_config.json
+→ LinkedIn may require 2FA - handle manually first time
+
+[ERROR: Daily limit reached]
+→ System hit configured daily_max (default: 20)
+→ Change in auto_apply_config.json or wait until tomorrow
+→ Run tracker-only: run_tracker_only.bat
+
+[ERROR: Resume not found]
+→ Verify file exists: _Templates\resume.pdf
+→ File name must be exactly: resume.pdf (lowercase)
+→ Must be PDF format
+
+[No jobs found]
+→ Broaden job_preferences titles/locations
+→ Check filters aren't too restrictive
+→ LinkedIn may require login first time
+
+
+SAFETY FEATURES
+───────────────
+✓ Duplicate detection (won't reapply within 90 days)
+✓ Daily limits to avoid platform detection
+✓ Human-like typing delays (randomized)
+✓ Cooldown periods between applications
+✓ Logs all activity to applied_log.json
+
+
+OUTPUTS EXPLAINED
+─────────────────
+
+Job_Tracker.xlsx:
+  • Complete application list
+  • Color-coded status (Green=Offer, Red=Rejected, etc.)
+  • Days since last activity
+  • Missing documents flagged
+
+Daily_Report_[date].txt:
+  • Application count by status
+  • Incomplete applications
+  • Recommended next actions
+
+applied_log.json:
+  • Full history of all applications
+  • Used for duplicate detection
+  • Track progress over time
+
+
+DAILY WORKFLOW
+──────────────
+1. System runs at 9:00 AM (if start_scheduler.bat is running)
+2. Searches LinkedIn for matching jobs
+3. Auto-applies up to daily_max
+4. Updates Excel tracker
+5. Generates daily report
+6. Check _Reports\ folder for results
+
+
+CUSTOMIZATION
+─────────────
+
+Add more job titles:
+→ Edit: auto_apply_config.json → job_preferences → titles
+
+Change daily limit:
+→ Edit: auto_apply_config.json → application_limits → daily_max
+
+Modify cover letter:
+→ Edit: _Templates\cover_letter_template.txt
+
+Change archive threshold (default: 45 days):
+→ Edit: _System\job_tracker.py → archive_old_applications(days_threshold=45)
+
+
+UNINSTALL
+─────────
+1. Stop scheduler: Ctrl+C in start_scheduler.bat window
+2. Delete entire Job Application folder
+3. Remove skill: Delete ~/.claude/skills/job-application-organizer.md
+4. Uninstall packages (optional):
+   pip uninstall selenium openpyxl schedule pyautogui
+
+
+SUPPORT & UPDATES
+─────────────────
+GitHub: [Add your repo URL here]
+Issues: [Add your issues URL here]
+Email: [Add your email here]
+
+Version: 1.0.0
+Released: 2026-11-06
+
+
+LICENSE
+───────
+MIT License - Free to use, modify, and distribute
+See LICENSE file for full terms
